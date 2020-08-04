@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.3" reference="TaskManager.Code.RepeatedTaskRescheduler" locale="">
+  <web>TaskManager.Code</web>
+  <name>RepeatedTaskRescheduler</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1595952957000</creationDate>
+  <parent>TaskManager.Code.WebHome</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1596062918000</date>
+  <contentUpdateDate>1595952957000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Repeated Task Rescheduler</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content/>
+  <object>
+    <name>TaskManager.Code.RepeatedTaskRescheduler</name>
+    <number>0</number>
+    <className>XWiki.SchedulerJobClass</className>
+    <guid>97243b50-ccae-4b40-96cb-8fa9fca0a446</guid>
+    <class>
+      <name>XWiki.SchedulerJobClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <contextDatabase>
+        <disabled>0</disabled>
+        <name>contextDatabase</name>
+        <number>9</number>
+        <prettyName>Job execution context database</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </contextDatabase>
+      <contextLang>
+        <disabled>0</disabled>
+        <name>contextLang</name>
+        <number>8</number>
+        <prettyName>Job execution context lang</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </contextLang>
+      <contextUser>
+        <disabled>0</disabled>
+        <name>contextUser</name>
+        <number>7</number>
+        <prettyName>Job execution context user</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </contextUser>
+      <cron>
+        <disabled>0</disabled>
+        <name>cron</name>
+        <number>5</number>
+        <prettyName>Cron Expression</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </cron>
+      <jobClass>
+        <disabled>0</disabled>
+        <name>jobClass</name>
+        <number>3</number>
+        <prettyName>Job Class</prettyName>
+        <size>60</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </jobClass>
+      <jobDescription>
+        <disabled>0</disabled>
+        <name>jobDescription</name>
+        <number>2</number>
+        <prettyName>Job Description</prettyName>
+        <rows>10</rows>
+        <size>45</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </jobDescription>
+      <jobName>
+        <disabled>0</disabled>
+        <name>jobName</name>
+        <number>1</number>
+        <prettyName>Job Name</prettyName>
+        <size>60</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </jobName>
+      <script>
+        <contenttype>PureText</contenttype>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>script</name>
+        <number>6</number>
+        <prettyName>Job Script</prettyName>
+        <rows>10</rows>
+        <size>60</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </script>
+      <status>
+        <disabled>0</disabled>
+        <name>status</name>
+        <number>4</number>
+        <prettyName>Status</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </status>
+    </class>
+    <property>
+      <contextDatabase>subwiki1</contextDatabase>
+    </property>
+    <property>
+      <contextLang>de</contextLang>
+    </property>
+    <property>
+      <contextUser>XWiki.superadmin</contextUser>
+    </property>
+    <property>
+      <cron>0 25 2 * * ?</cron>
+    </property>
+    <property>
+      <jobClass>com.xpn.xwiki.plugin.scheduler.GroovyJob</jobClass>
+    </property>
+    <property>
+      <jobDescription>This job checkes daily for tasks that have been marked as done, and which are repeating.
+
+In that case the job repopens the task, but increases the due date by the given interval for the repetition.</jobDescription>
+    </property>
+    <property>
+      <jobName>Reschedule finished repeating tasks</jobName>
+    </property>
+    <property>
+      <script>import com.xpn.xwiki.web.Utils
+
+def loggingService = Utils.getComponent('org.xwiki.script.service.ScriptService','logging')
+def logger = loggingService.getLogger('org.xwiki.contrib.application-task.scheduler')
+
+try {
+  logger.info('start run')
+
+  def now = new Date()
+  def qm =  Utils.getComponent('org.xwiki.script.service.ScriptService','query')
+  if (qm == null) logger.error('no query manager?')
+
+  def query = "from doc.object('TaskManager.Code.RepeatedTaskClass') as tr where tr.active=1"
+
+  def counter = 0
+  qm.xwql(query).execute().each( { docName -&gt;
+     logger.debug('found repeating task at [{}]', docName)
+
+     task =  xwiki.getDocument(docName)
+     taskInfo = task.getObject('TaskManager.TaskManagerClass')
+     repeatInfo = task.getObject('TaskManager.Code.RepeatedTaskClass')
+
+     if (taskInfo.getValue('status') == 'Done') {
+        logger.debug('task at [{}] is done; lets check if we must reopen', docName)
+        dueDate = taskInfo.getValue('duedate')
+        logger.debug('due date is [{}] and now is [{}]', dueDate, now)
+        if (dueDate == null || now.before(dueDate)) {
+           logger.debug('due date [{}] is not yet reached', dueDate)
+           return
+        }
+        // we sure love jodatime:
+        def newDueDate = xwiki.jodatime.getMutableDateTime(dueDate.getTime()) 
+        def shouldReopen = true
+        switch (repeatInfo.getValue('interval')) {
+           case 'daily':
+             newDueDate.addDays(1)
+             break
+           case 'weekly':
+             newDueDate.addWeeks(1)
+             break
+           case 'monthly':
+             newDueDate.addMonths(1)
+             break
+           case 'quarterly':
+             newDueDate.addMonths(3)
+             break
+           case 'yearly':
+             newDueDate.addYear(1)
+             break
+           default:
+             shouldReopen = false
+             logger.warn('interval [{}] not supported; found in [{}]', repeatInfo.getValue('interval'), docName)
+             break
+        }
+        if (shouldReopen) {
+          taskInfo.set('duedate', new Date(newDueDate.getMillis()))
+          taskInfo.set('status', 'ToDo')
+          task.save('Mit neuem Fälligkeitsdatum eröffnet', true)
+          logger.debug('task [{}] reopened with new due date [{}]', docName, newDueDate)
+          counter++;
+        }
+     }
+  })
+
+  logger.info('finishing regularily with [{}] tasks rescheduled', counter)
+
+} catch (Exception e) {
+  logger.warn('task updates failed', e)
+} finally {
+  logger.info('finished run')
+}
+</script>
+    </property>
+    <property>
+      <status>Normal</status>
+    </property>
+  </object>
+</xwikidoc>
