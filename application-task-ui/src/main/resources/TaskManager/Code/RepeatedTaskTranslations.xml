@@ -40,11 +40,11 @@
   <syntaxId>plain/1.0</syntaxId>
   <hidden>true</hidden>
   <content>TaskManager.Code.RepeatedTaskClass_interval=Fäligkeitsintervall
-TaskManager.Code.RepeatedTaskClass_interval_daily=Täglich
-TaskManager.Code.RepeatedTaskClass_interval_weekly=Wöchentlich
-TaskManager.Code.RepeatedTaskClass_interval_monthly=Monatlich
-TaskManager.Code.RepeatedTaskClass_interval_quarterly=Quartalsweise
-TaskManager.Code.RepeatedTaskClass_interval_yearly=Jährlich
+TaskManager.Code.RepeatedTaskClass_interval_daily=täglich
+TaskManager.Code.RepeatedTaskClass_interval_weekly=wöchentlich
+TaskManager.Code.RepeatedTaskClass_interval_monthly=monatlich
+TaskManager.Code.RepeatedTaskClass_interval_quarterly=quartalsweise
+TaskManager.Code.RepeatedTaskClass_interval_yearly=jährlich
 TaskManager.Code.RepeatedTaskClass_lastDueDate=Zuletzt Abgearbeitet
 TaskManager.Code.RepeatedTaskClass_endDate=Letztes Fälligkeitsdatum
 TaskManager.Code.RepeatedTaskClass_active=Aktiv
@@ -55,7 +55,9 @@ TaskManager.Code.edit.repeatSection.active=Diese Aufgabe ist wiederkehrend.
 TaskManager.Code.edit.repeatSection.inactive=Die Wiederholung für diese Aufgabe ist pausiert.
 TaskManager.Code.edit.RepeatedTaskClass.active.hint=Wenn gesetzt, ist die Wiederholung aktiv; anderenfalls pausiert sie
 TaskManager.Code.edit.RepeatedTaskClass.interval.hint=Der Zeitraum, zu dem das nächste Fälligkeitsdatum gesetzt wird
-##TaskManager.Code.edit.repeated=Wiederkehrend</content>
+##TaskManager.Code.edit.repeated=Wiederkehrend
+TaskManager.Code.view.repeatSection.active=Diese Aufgabe ist {0} wiederkehrend.
+TaskManager.Code.view.repeatSection.inactive=Diese Aufgabe ist {0} wiederkehrend, aber pausiert.</content>
   <object>
     <name>TaskManager.Code.RepeatedTaskTranslations</name>
     <number>0</number>

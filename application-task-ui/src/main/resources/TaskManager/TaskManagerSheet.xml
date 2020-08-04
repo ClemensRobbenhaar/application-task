@@ -169,11 +169,13 @@
                #if(!$recurrent)
                   $escapetool.xml($services.localization.render('TaskManager.Code.edit.repeatSection.unset'))
                #else
+                  #set($discard = $doc.use('TaskManager.Code.RepeatedTaskClass'))
                   #if($recurrency.getValue('active') == 1)
-                      $escapetool.xml($services.localization.render('TaskManager.Code.edit.repeatSection.active'))
+                      $escapetool.xml($services.localization.render('TaskManager.Code.view.repeatSection.active', $doc.display('interval')))
                   #else
-                      $escapetool.xml($services.localization.render('TaskManager.Code.edit.repeatSection.inactive'))
+                      $escapetool.xml($services.localization.render('TaskManager.Code.view.repeatSection.inactive', $doc.display('interval')))
                   #end
+                  #set ($discard = $doc.use('TaskManager.TaskManagerClass'))
                #end
           )))
         )))
