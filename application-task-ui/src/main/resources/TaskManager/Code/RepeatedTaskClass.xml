@@ -64,6 +64,20 @@
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
     </active>
+    <dueDayOfMonth>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <hint>The day of the month where the task should be due; to better handle cases where the some month has less days than others</hint>
+      <name>dueDayOfMonth</name>
+      <number>4</number>
+      <numberType>integer</numberType>
+      <prettyName>Due date of the month</prettyName>
+      <size>30</size>
+      <unmodifiable>0</unmodifiable>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.NumberClass</classType>
+    </dueDayOfMonth>
     <endDate>
       <customDisplay/>
       <dateFormat>dd.MM.yyyy HH:mm:ss</dateFormat>
@@ -102,22 +116,6 @@
       <values>weekly|monthly|quarterly|yearly</values>
       <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
     </interval>
-    <lastDueDate>
-      <customDisplay/>
-      <dateFormat>dd.MM.yyyy HH:mm:ss</dateFormat>
-      <disabled>0</disabled>
-      <emptyIsToday>0</emptyIsToday>
-      <hint>This is the last time the task has been done.</hint>
-      <name>lastDueDate</name>
-      <number>2</number>
-      <picker>1</picker>
-      <prettyName>Last Due Date</prettyName>
-      <size>20</size>
-      <unmodifiable>0</unmodifiable>
-      <validationMessage/>
-      <validationRegExp/>
-      <classType>com.xpn.xwiki.objects.classes.DateClass</classType>
-    </lastDueDate>
   </class>
   <object>
     <name>TaskManager.Code.RepeatedTaskClass</name>

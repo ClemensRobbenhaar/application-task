@@ -194,8 +194,20 @@ try {
            logger.debug('due date [{}] is not yet reached', dueDate)
            return
         }
+
         // we sure love jodatime:
         def newDueDate = xwiki.jodatime.getMutableDateTime(dueDate.getTime()) 
+
+        def interval = repeatInfo.getValue('interval')
+        def checkEndOfMonth = (interval in ['monthly','quarterly','yearly'])
+        def nominalDueDay = null
+        if (checkEndOfMonth) {
+          nominalDueDay = repeatInfo.getValue('dueDayOfMonth')
+          if (nominalDueDay == null) {
+            nominalDueDay = newDueDate.getDayOfMonth()
+            repeatInfo.set('dueDayOfMonth', nominalDueDay)
+          }
+        }
         def shouldReopen = true
         switch (repeatInfo.getValue('interval')) {
            case 'daily':
@@ -217,6 +229,14 @@ try {
              shouldReopen = false
              logger.warn('interval [{}] not supported; found in [{}]', repeatInfo.getValue('interval'), docName)
              break
+        }
+        if (checkEndOfMonth &amp;&amp; newDueDate.getDayOfMonth() != nominalDueDay) {
+          logger.debug('found new due date [{}] which does not have the expected day [{}] of the month', newDueDate, nominalDueDay)
+          try {
+            newDueDate.setDayOfMonth(nominalDueDay)
+          } catch (IllegalArgumentException e) {
+            logger.debug('semi excepted exception [{}] when setting day of month', e.message)
+          }
         }
         if (shouldReopen) {
           taskInfo.set('duedate', new Date(newDueDate.getMillis()))
