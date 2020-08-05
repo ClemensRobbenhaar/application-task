@@ -38,7 +38,7 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>plain/1.0</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>
 # Application Panel title
 TaskManager.home.title=Aufgabenverwaltung
@@ -67,18 +67,18 @@ TaskManager.TaskManagerClass_status_InProgress=In Bearbeitung
 TaskManager.TaskManagerClass_status_Late=Überfällig
 TaskManager.TaskManagerClass_status_ToDo=ToDo
 TaskManager.TaskManagerClass_status_Done=Erledigt
-TaskManager.TaskManagerClass_status_Late=Late
-TaskManager.TaskManagerClass_severity=Priority
+TaskManager.TaskManagerClass_severity=Priorität
 TaskManager.TaskManagerClass_severity_Medium=Mittel
 TaskManager.TaskManagerClass_severity_Low=Niedrig
 TaskManager.TaskManagerClass_severity_High=Hoch
 TaskManager.TaskManagerClass_reporter=Reporter
-TaskManager.TaskManagerClass_assignee=Zugewiesen
+TaskManager.TaskManagerClass_assignee=Zuständig
+TaskManager.TaskManagerClass_assignee_group=Zuständig (Gruppe)
 TaskManager.TaskManagerClass_duedate=Fällig am
 TaskManager.TaskManagerClass_creationdate=Angelegt am
 TaskManager.TaskManagerClass_dependencies=Abhängigkeiten
-TaskManager.TaskManagerClass_dependencies_nodependencies=Bitte erzeugen Sie andere Aufgaben, bevor Sie Abhängigkeit anlegen.
-TaskManager.TaskManagerClass_progress=Forschritt
+TaskManager.TaskManagerClass_dependencies_nodependencies=Bitte erzeugen Sie andere Aufgaben, bevor Sie Abhängigkeiten anlegen.
+TaskManager.TaskManagerClass_progress=Fortschritt
 
 
 TaskManager.StatusClass_status_InProgress=In Bearbeitung

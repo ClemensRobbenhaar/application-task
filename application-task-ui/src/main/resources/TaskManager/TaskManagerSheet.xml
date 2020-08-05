@@ -130,6 +130,13 @@
                        &lt;/label&gt;
                      : $doc.display('assignee')
                   #end
+                   #if ("$!doc.getValue('assignee_group')" != '')
+                     ; &lt;label for="TaskManager.TaskManagerClass_0_assignee_group"&gt;
+                         $services.icon.render('group')
+                         $escapetool.xml($doc.displayPrettyName('assignee_group', false, false))
+                       &lt;/label&gt;
+                     : $doc.display('assignee_group')
+                  #end
                 )))
               )))
             )))
@@ -166,16 +173,18 @@
         (((
           (% class="col-xs-12 col-sm-12 col-md-12" %)
           (((
-               #if(!$recurrent)
-                  $escapetool.xml($services.localization.render('TaskManager.Code.edit.repeatSection.unset'))
-               #else
+               #if($recurrent)
                   #set($discard = $doc.use('TaskManager.Code.RepeatedTaskClass'))
                   #if($recurrency.getValue('active') == 1)
+                      $services.icon.render('repeat')
                       $escapetool.xml($services.localization.render('TaskManager.Code.view.repeatSection.active', $doc.display('interval')))
                   #else
+                      $services.icon.render('pause')
                       $escapetool.xml($services.localization.render('TaskManager.Code.view.repeatSection.inactive', $doc.display('interval')))
                   #end
                   #set ($discard = $doc.use('TaskManager.TaskManagerClass'))
+               #else
+                  $escapetool.xml($services.localization.render('TaskManager.Code.edit.repeatSection.unset'))
                #end
           )))
         )))
@@ -311,6 +320,11 @@
                       $escapetool.xml($doc.displayPrettyName('assignee', false, false))
                     &lt;/label&gt;
                   : $doc.display('assignee')
+                  ; &lt;label for="TaskManager.TaskManagerClass_0_assignee_group"&gt;
+                      $services.icon.render('group')
+                      $escapetool.xml($doc.displayPrettyName('assignee_group', false, false))
+                    &lt;/label&gt;
+                  : $doc.display('assignee_group')
                 )))
               )))
             )))

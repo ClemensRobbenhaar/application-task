@@ -29,7 +29,6 @@
   <parent>WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
-  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1405091819000</creationDate>
   <date>1406046236000</date>
@@ -42,6 +41,7 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>true</hidden>
+  <content/>
   <class>
     <name>TaskManager.TaskManagerClass</name>
     <customClass/>
@@ -56,10 +56,11 @@
       <customDisplay/>
       <disabled>0</disabled>
       <displayType>select</displayType>
-      <multiSelect>0</multiSelect>
+      <hint/>
+      <multiSelect>1</multiSelect>
       <name>assignee</name>
       <number>9</number>
-      <picker>0</picker>
+      <picker>1</picker>
       <prettyName>Assignee</prettyName>
       <relationalStorage>0</relationalStorage>
       <separator> </separator>
@@ -72,6 +73,28 @@
       <validationRegExp/>
       <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
     </assignee>
+    <assignee_group>
+      <cache>0</cache>
+      <customDisplay/>
+      <disabled>0</disabled>
+      <displayType>select</displayType>
+      <hint/>
+      <multiSelect>1</multiSelect>
+      <name>assignee_group</name>
+      <number>10</number>
+      <picker>1</picker>
+      <prettyName>Assigned Group</prettyName>
+      <relationalStorage>0</relationalStorage>
+      <separator> </separator>
+      <separators/>
+      <size>20</size>
+      <sort>none</sort>
+      <unmodifiable>0</unmodifiable>
+      <usesList>1</usesList>
+      <validationMessage/>
+      <validationRegExp/>
+      <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+    </assignee_group>
     <dependencies>
       <cache>0</cache>
       <classname/>
@@ -150,10 +173,11 @@
 {{/velocity}}</customDisplay>
       <disabled>0</disabled>
       <displayType>checkbox</displayType>
+      <hint/>
       <idField/>
       <multiSelect>1</multiSelect>
       <name>dependencies</name>
-      <number>10</number>
+      <number>12</number>
       <picker>0</picker>
       <prettyName>Dependencies</prettyName>
       <relationalStorage>1</relationalStorage>
@@ -171,6 +195,7 @@
     <description>
       <customDisplay>{{include reference="AppWithinMinutes.Content"/}}</customDisplay>
       <disabled>0</disabled>
+      <hint/>
       <name>description</name>
       <number>4</number>
       <prettyName>Task description</prettyName>
@@ -185,8 +210,9 @@
       <dateFormat>dd/MM/yyyy HH:mm:ss</dateFormat>
       <disabled>0</disabled>
       <emptyIsToday>1</emptyIsToday>
+      <hint/>
       <name>duedate</name>
-      <number>10</number>
+      <number>11</number>
       <picker>1</picker>
       <prettyName>Due Date</prettyName>
       <size>20</size>
@@ -198,6 +224,7 @@
     <name>
       <customDisplay/>
       <disabled>0</disabled>
+      <hint/>
       <name>name</name>
       <number>1</number>
       <picker>0</picker>
@@ -211,6 +238,7 @@
     <number>
       <customDisplay/>
       <disabled>0</disabled>
+      <hint/>
       <name>number</name>
       <number>2</number>
       <numberType>integer</numberType>
@@ -249,6 +277,7 @@
 {{/html}}
 {{/velocity}}</customDisplay>
       <disabled>0</disabled>
+      <hint/>
       <name>progress</name>
       <number>6</number>
       <numberType>integer</numberType>
@@ -265,6 +294,7 @@
       <customDisplay/>
       <disabled>0</disabled>
       <displayType>select</displayType>
+      <hint/>
       <idField>project</idField>
       <multiSelect>0</multiSelect>
       <name>project</name>
@@ -288,6 +318,7 @@
       <customDisplay/>
       <disabled>0</disabled>
       <displayType>select</displayType>
+      <hint/>
       <multiSelect>0</multiSelect>
       <name>reporter</name>
       <number>8</number>
@@ -309,7 +340,7 @@
       <classname>TaskManager.SeverityClass</classname>
       <customDisplay>{{velocity}}
 #set ($discard = $services.localization.use('document', 'TaskManager.TaskManagerTranslations'))
-#if($context.action=='edit')
+#if($type=='edit')
 {{html}}
 #set($name ="severity")
 #set($propertyClass = $object.getxWikiClass().get($name))
@@ -339,6 +370,7 @@
 {{/velocity}}</customDisplay>
       <disabled>0</disabled>
       <displayType>select</displayType>
+      <hint/>
       <idField>severity</idField>
       <multiSelect>0</multiSelect>
       <name>severity</name>
@@ -392,6 +424,7 @@
 {{/velocity}}</customDisplay>
       <disabled>0</disabled>
       <displayType>select</displayType>
+      <hint/>
       <idField>status</idField>
       <multiSelect>0</multiSelect>
       <name>status</name>
@@ -538,7 +571,9 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </cache>
       <code>
+        <contenttype>PureText</contenttype>
         <disabled>0</disabled>
+        <editor>PureText</editor>
         <name>code</name>
         <number>2</number>
         <prettyName>Code</prettyName>
@@ -579,7 +614,7 @@
         <separators>|, </separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <values>currentPage|onDemand|always</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
@@ -640,7 +675,9 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </cache>
       <code>
+        <contenttype>PureText</contenttype>
         <disabled>0</disabled>
+        <editor>PureText</editor>
         <name>code</name>
         <number>2</number>
         <prettyName>Code</prettyName>
@@ -649,6 +686,22 @@
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </code>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>6</number>
+        <prettyName>Content Type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>CSS|LESS</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
       <name>
         <disabled>0</disabled>
         <name>name</name>
@@ -743,7 +796,9 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </cache>
       <code>
+        <contenttype>PureText</contenttype>
         <disabled>0</disabled>
+        <editor>PureText</editor>
         <name>code</name>
         <number>2</number>
         <prettyName>Code</prettyName>
@@ -752,6 +807,22 @@
         <unmodifiable>0</unmodifiable>
         <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
       </code>
+      <contentType>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>contentType</name>
+        <number>6</number>
+        <prettyName>Content Type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>CSS|LESS</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </contentType>
       <name>
         <disabled>0</disabled>
         <name>name</name>
@@ -808,5 +879,4 @@
       <use>onDemand</use>
     </property>
   </object>
-  <content/>
 </xwikidoc>
