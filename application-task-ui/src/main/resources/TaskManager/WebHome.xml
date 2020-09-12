@@ -49,7 +49,8 @@
   'status': {"type":"list","size":10,"html":true},
   'severity': {"type":"list","size":10,"html":true},
   'reporter': {"type":"text","size":10,"html":true},
-  'assignee': {"type":"text","size":10,"html":true},
+  'assignee': {"type":"suggest","size":10,"html":true, "sortable":false},
+  'assignee_group': {"type":"suggest","size":10,"html":true, "sortable":false},
   'duedate': {"type":"text","size":10},
   '_actions': {"sortable":false,"filterable":false,"html":true,"actions":["edit","delete"]}
 })
@@ -60,10 +61,10 @@
   'tagCloud': true,
   'rowCount': 15,
   'maxPages': 10,
-  'selectedColumn': 'name',
+  'selectedColumn': 'duedate',
   'defaultOrder': 'asc'
 })
-#set ($columns = ['name', 'project', 'status', 'severity', 'reporter', 'assignee', 'duedate', '_actions'])
+#set ($columns = ['name', 'project', 'status', 'severity', 'reporter', 'assignee', 'assignee_group', 'duedate', '_actions'])
 #livetable('taskmanager' $columns $columnsProperties $options)
 {{/velocity}}</content>
   <object>

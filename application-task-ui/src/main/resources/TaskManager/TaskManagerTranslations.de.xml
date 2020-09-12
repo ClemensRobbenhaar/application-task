@@ -115,6 +115,7 @@ taskmanager.livetable.status=Status
 taskmanager.livetable.severity=Priorität
 taskmanager.livetable.reporter=Reporter
 taskmanager.livetable.assignee=Zugewiesen
+taskmanager.livetable.assignee_group=(Gruppe)
 taskmanager.livetable.duedate=Fälligkeitsdatum
 taskmanager.livetable.creationDate=Anlegedatum
 
