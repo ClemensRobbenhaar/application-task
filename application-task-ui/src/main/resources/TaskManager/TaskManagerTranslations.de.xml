@@ -92,6 +92,7 @@ TaskManager.SeverityClass_severity_High=Hoch
 # Live table generic keys
 taskmanager.livetable.doc.title=Seitentitel
 taskmanager.livetable.doc.name=Seitenname
+taskmanager.livetable.doc.fullName=Ort
 taskmanager.livetable.doc.space=Bereich
 taskmanager.livetable.doc.fullname=Seitenpfad
 taskmanager.livetable.doc.author=Letzer Autor

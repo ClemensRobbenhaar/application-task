@@ -43,5 +43,94 @@
 $services.localization.use('document', 'TaskManager.TaskManagerTranslations')
 {{/velocity}}
 
-{{include document="XWiki.LiveTableResults" /}}</content>
+{{include reference="XWiki.LiveTableResultsMacros" /}}
+
+{{velocity wiki="false"}}
+#**
+ * Override: Builds the JSON response to a live table data call.
+ *
+ * @param $map stores the JSON in memory so that it can be adjusted before serialization
+ *#
+#macro(gridresultwithfilter_buildJSON $className $collist $filterfrom $filterwhere $filterParams $map)
+  #gridresultwithfilter_buildQuery($className $collist $filterfrom $filterwhere $filterParams)
+  #set($discard = $map.put('column list', $collist))
+  #set($discard = $map.put('filter from', $filterfrom))
+  #set($discard = $map.put('filter where', $filterwhere))
+  #if("$!request.sql" == '1' || true)
+    #set($discard = $map.put('sql', $sql))
+    #set($discard = $map.put('params', $sqlParams))
+  #end
+  #set($discard = $map.put('reqNo', $mathtool.toInteger($request.reqNo)))
+  ###gridresult_buildTagCloudJSON($map)
+  #gridresult_buildRowsJSON($map)
+  #set($defaultDocName = $services.model.createDocumentReference('','','','default').getName())
+  #foreach($result in $map.get('rows'))
+    ## here we change / abuse the fullName to the value of the next "meaningful" parent
+    ## if the first parent has a name of "TaskManager", and it is not the main task manager
+    ## then we display the name of their parent
+    ## otherwise we show the name of the parent of the task.
+    ## XXX: what if we use doc.space instead?
+    #if("$!result['doc_fullName']" != '')
+       #set($docRef = $services.model.resolveDocument($result.get('doc_fullName')))
+       ###set($discard = $result.put('doc_ref', "$docRef"))
+       ###set($discard = $result.put('default', $defaultDocName))
+       #if($docRef.getName() == $defaultDocName)
+         ###set($discard = $result.put('doc_isdefault', true))
+         #set($parentSpaceRef = $docRef.getParent().getParent())
+       #else
+         #set($parentSpaceRef = $docRef.getParent())
+       #end
+       #if ($parentSpaceRef.getName() == "TaskManager" &amp;&amp; $parentSpaceRef.getParent().getType() == "SPACE")
+         #set($displayParentSpaceRef = $parentSpaceRef.getParent())
+       #else
+         #set($displayParentSpaceRef = $parentSpaceRef)
+       #end
+       #set($parentSpaceDoc = $xwiki.getDocument($services.model.createDocumentReference($defaultDocName, $displayParentSpaceRef)))
+       #set($parentSpaceTitle = "-") ## just in case the document is null
+       #set($parentSpaceTitle = $parentSpaceDoc.getPlainTitle())
+       ###set($discard = $result.put('doc_parent', "$parentSpaceRef"))
+       ###set($discard = $result.put('doc_displayparent', "$displayParentSpaceRef"))
+       ###set($discard = $result.put('doc_fullname2', "$parentSpaceTitle"))
+       #set($parentSpaceURL = $xwiki.getURL($parentSpaceRef))
+       ###set($discard = $result.put('doc_parent_url', $parentSpaceURL))
+       #set($locationHtml = "&lt;a class=${escapetool.Q}wikigeneratedlink${escapetool.Q} href=${escapetool.Q}$escapetool.xml($parentSpaceURL)${escapetool.Q}&gt;$escapetool.xml($parentSpaceTitle)&lt;/a&gt;")
+       #set($discard = $result.put('doc_fullName', $locationHtml))
+    #end
+  #end
+#end
+
+
+## this is mostly a copy from XWiki.LiveTableResults with unneccessary stuff removed
+## and a bit of extras added
+## TODO: still needed ?
+#set ($extra = '')
+#set ($params = [])
+#if ("$!request.space" != '')
+  #set ($extra = "${extra} AND doc.space = ?")
+  #set ($discard = $params.add($request.space))
+#end
+#if ("$!request.location" != '')
+  #set ($extra = "${extra} AND LOWER(doc.fullName) LIKE LOWER(?) ESCAPE '!'")
+  #set ($locationFilterValue = $request.location)
+  ## Note: the "_", "[", and the "%" characters have special meanings in standard SQL servers (they behave as wildcards).
+  ## However, it is not what the user expects (e.g. https://jira.xwiki.org/browse/XWIKI-12608).
+  ## As a consequence, we must escape these characters.
+  ## See http://www.jguru.com/faq/view.jsp?EID=8881 to understand why we use the special clause 'escape' above.
+  ## Since we use '!' for the escaping, we also double existing ones.
+  #set ($locationFilterValue = $locationFilterValue.replaceAll('([\[%_!])', '!$1'))
+  ## Because the user might filter with "/" as separator we replace that by "%", because it could be "."
+  ## (the space separator) or "/" (as it is in the document name).
+  ## In addition, using "%" (any sequence of character) instead of "_" (any single character) gives the ability
+  ## to filter on different levels:
+  ##   e.g. filtering on "Blog/Intro" will return "Blog.BlogIntroduction".
+  ##        On the other hand, it will also returns: "BlogForIntrospection", which might be unexpected.
+  #set ($locationFilterValue = $locationFilterValue.replaceAll('/', '%'))
+  #set ($discard = $params.add("%${locationFilterValue}%"))
+#end
+#set($collist = [])
+#foreach($col in $request.collist.split(','))
+  #set($discard = $collist.add($col))
+#end
+#gridresultwithfilter("$!request.classname" $collist '' "${extra}" $params)
+{{/velocity}}</content>
 </xwikidoc>
