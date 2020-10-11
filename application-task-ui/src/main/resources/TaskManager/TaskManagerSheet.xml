@@ -361,7 +361,7 @@
         (((
           #if(!$recurrent)
             #set($recurrency = $doc.newObject('TaskManager.Code.RepeatedTaskClass'))
-            &lt;input type="hidden" id="RepeatedTaskManager_isNew" name="objectPolicy" value="updateOrCreate" disabled="disabled" /&gt;
+            &lt;input type="hidden" id="RepeatedTaskManager_recurrencySection_isNew" name="objectPolicy" value="updateOrCreate" disabled="disabled" /&gt;
             #set($discard = $recurrency.set('active', '1'))
           #end
           #set($discard = $doc.use($recurrency))
@@ -424,11 +424,14 @@
           )))
           (% class="form-group col-xs-12 col-sm-12 col-md-12" %)
           (((
-            ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies"&gt;
+            &lt;dl&gt;
+            &lt;dt&gt;&lt;label for="TaskManager.TaskManagerClass_0_dependencies" id="TaskManager_dependenciesSectionSwitch"&gt;
                 $services.icon.render('add')
                 $escapetool.xml($doc.displayPrettyName('dependencies', false, false))
-              &lt;/label&gt;
-            : $doc.display('dependencies')
+                (% class="sectionToggle" %)(% id="TaskManager_dependenciesSectionSwitch_closed" %)$services.icon.render('caret-right')(% id="TaskManager_dependenciesSectionSwitch_open" style="display:none" %)$services.icon.render('caret-down')
+              &lt;/label&gt;&lt;/dt&gt;
+            &lt;dd id="TaskManager_dependenciesSection" style="display:none"&gt;$doc.display('dependencies')&lt;/dd&gt;
+            &lt;/dl&gt;
           )))
         )))
       )))

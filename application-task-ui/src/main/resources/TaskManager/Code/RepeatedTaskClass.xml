@@ -233,35 +233,44 @@
     <property>
       <code>require(['jquery'], function(jQ) {
 
-  function recurrencySectionToggled() {
-    var repeatSection = jQ('#RepeatedTaskManager_recurrencySection')
-    if (repeatSection.hasClass('visible')) {
-      jQ('#RepeatedTaskManager_recurrencySectionSwitch_open').hide()
-      jQ('#RepeatedTaskManager_recurrencySectionSwitch_closed').show()
-      jQ('#RepeatedTaskManager_isNew').attr('disabled', 'disabled')
+  function sectionOpenCloseToggle(prefix, openCallback, closeCallback) {
+    var section = jQ('#' + prefix)
+    if (section.hasClass('visible')) {
+      jQ('#' + prefix + 'Switch_open').hide()
+      jQ('#' + prefix + 'Switch_closed').show()
+      if (closeCallback) try { closeCallback() } catch (e) { console.log(e) }
     } else {
-      jQ('#RepeatedTaskManager_recurrencySectionSwitch_closed').hide()
-      jQ('#RepeatedTaskManager_recurrencySectionSwitch_open').show()
+      jQ('#' + prefix + 'Switch_closed').hide()
+      jQ('#' + prefix + 'Switch_open').show()
       // if we are about to open the section we only set the "save the new object" if the "active" checkbox is set
-      recurrencySettingChanged()
+      if (openCallback) try { openCallback() } catch (e) { console.log(e) }
     }
-    repeatSection.toggle().toggleClass('visible')
+    section.toggle().toggleClass('visible')
+  }
+
+  function recurrencySectionToggled() {
+    sectionOpenCloseToggle('RepeatedTaskManager_recurrencySection', recurrencySettingChanged, function() { jQ('#RepeatedTaskManager_recurrencySection_isNew').attr('disabled', 'disabled') })
   }
 
   function recurrencySettingChanged() {
     var repeatSetting = jQ('input[id="TaskManager.Code.RepeatedTaskClass_0_active"]')
     if (repeatSetting.prop('checked')) {
-      jQ('#RepeatedTaskManager_isNew').removeAttr('disabled')
+      jQ('#RepeatedTaskManager_recurrencySection_isNew').removeAttr('disabled')
     } else {
-      jQ('#RepeatedTaskManager_isNew').attr('disabled', 'disabled')
+      jQ('#RepeatedTaskManager_recurrencySection_isNew').attr('disabled', 'disabled')
     }
+  }
+
+  function dependenciesSectionToggled() {
+    sectionOpenCloseToggle('TaskManager_dependenciesSection')
   }
 
   function hookTaskEdit() {
     if (document.getElementById('RepeatedTaskManager_recurrencySection')) {
-      jQ('#RepeatedTaskManager_recurrencySectionSwitch').on('click', recurrencySectionToggled);
+      jQ('#RepeatedTaskManager_recurrencySectionSwitch').on('click', recurrencySectionToggled)
       jQ('input[id="TaskManager.Code.RepeatedTaskClass_0_active"]').on('change', recurrencySettingChanged)
     }
+    jQ('#TaskManager_dependenciesSectionSwitch').on('click', dependenciesSectionToggled)
     return true;
   }
 
