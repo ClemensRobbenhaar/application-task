@@ -125,8 +125,6 @@
       <code>
 require(['jquery'], function(jq) { jq(function() {
 
-try{
-
   var mainInput = document.getElementById('TaskManager.TaskManagerClass_0_progress')
   mainInput.addEventListener('change', function() {
      console.log('value changed', this.getAttribute('value'))
@@ -158,10 +156,6 @@ try{
        mainInput.dispatchEvent(chg)
     })
   }
-
-} catch (e) {
-console.log(e)
-}
 
 })})</code>
     </property>
@@ -273,7 +267,8 @@ console.log(e)
       <cache>long</cache>
     </property>
     <property>
-      <code>div.sign {
+      <code>div.sign,
+.selectize-dropdown .selectize-dropdown-content div.sign[data-selectable] {
   width: 20px;
   height: 20px;
   margin: 2px;
@@ -281,6 +276,10 @@ console.log(e)
   font-size: 0;
 }
 
+.selectize-dropdown .selectize-dropdown-content div.sign[data-selectable] {
+  padding: 0;
+  margin: 4px 12px;
+}
 div.sign.stop {
   background-color: red;
 }
@@ -295,6 +294,7 @@ div.sign.inactive {
 opacity:0.5;
 }
 
+/** edit view **/
 div.form-uncontrol div.sign {
   box-shadow: 0px 0px 0px 2px grey;
   box-shadow: inset 0px 0px 0px 2px black;
@@ -302,8 +302,7 @@ div.form-uncontrol div.sign {
 
 div.form-uncontrol div.sign.inactive {
   box-shadow: none;
-}
-</code>
+}</code>
     </property>
     <property>
       <contentType>CSS</contentType>

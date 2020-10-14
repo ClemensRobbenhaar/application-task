@@ -369,6 +369,9 @@
       <number/>
     </property>
     <property>
+      <progress>0</progress>
+    </property>
+    <property>
       <project/>
     </property>
     <property>

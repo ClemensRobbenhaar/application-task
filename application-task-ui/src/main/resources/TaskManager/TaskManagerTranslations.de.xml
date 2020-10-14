@@ -113,6 +113,7 @@ taskmanager.livetable.number=Nr.
 taskmanager.livetable.project=Projekt
 taskmanager.livetable.description=Beschreibung
 taskmanager.livetable.status=Status
+taskmanager.livetable.progress=Fortschritt
 taskmanager.livetable.severity=Priorität
 taskmanager.livetable.reporter=Reporter
 taskmanager.livetable.assignee=Zugewiesen

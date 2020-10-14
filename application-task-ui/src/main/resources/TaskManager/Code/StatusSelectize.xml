@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc version="1.3" reference="TaskManager.Code.StatusSelectize" locale="">
+  <web>TaskManager.Code</web>
+  <name>StatusSelectize</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <creator>xwiki:XWiki.Admin</creator>
+  <creationDate>1602534487000</creationDate>
+  <parent>TaskManager.Code.RepeatedTaskClass</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1602709778000</date>
+  <contentUpdateDate>1602707103000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Selectize Status</title>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{velocity wiki="false"}}
+#if("$!request.outputSyntax" == '')
+Javascript code to get the selectize of the status/progress running
+#else
+  #macro(statusWidget $value)
+    #set($statusCss = "stop")
+    #if($value &gt; 0)
+      #if($value &lt; 100)
+        #set($statusCss = "progress")
+      #else
+        #set($statusCss = "done")
+      #end
+    #end
+    #set($widget = { 'value' : $value, 'label' : "${value}%", 'cssClass' : "sign $statusCss"})
+    #set($discard = $data.add($widget))
+  #end
+  $response.setContentType('application/json')
+  #set($data = [{'value' : '', 'label' : "$services.localization.render('platform.livetable.selectAll')", 'cssClass': ''}])
+  #statusWidget(0)
+  #statusWidget(50)
+  #statusWidget(100)
+  $jsontool.serialize($data)
+#end
+{{/velocity}}
+</content>
+  <object>
+    <name>TaskManager.Code.StatusSelectize</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>50056852-7711-4368-ae7f-dc164970621d</guid>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <contenttype>PureText</contenttype>
+        <disabled>0</disabled>
+        <editor>PureText</editor>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators>|, </separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>require.config({
+  paths: {
+    'xwiki-selectize': "$xwiki.getSkinFile('uicomponents/suggest/xwiki.selectize.js', true)" +
+      "?v=$escapetool.url($xwiki.version)"
+  }
+});
+
+require(['jquery', 'xwiki-selectize'], function(jq) {
+  var settings = {
+    create: false,
+    load: function(typedText, callback) {
+      jq.getJSON("$escapetool.javascript($xwiki.getURL('TaskManager.Code.StatusSelectize','get','xpage=plain&amp;outputSyntax=plain'))", {
+        text: typedText
+      }).done(callback).fail(callback);
+    },
+    loadSelected: function(selectedValue, callback) {
+      jq.getJSON("$escapetool.javascript($xwiki.getURL('TaskManager.Code.StatusSelectize','get','xpage=plain&amp;outputSyntax=plain'))", {
+        text: selectedValue,
+        exactMatch: true
+      }).done(callback).fail(callback);
+    },
+    onLoad : function(data) {
+      try {
+        this._value_map = {}
+        for (var i=0; i&lt;data.length; i++) {
+          var value = data[i].value
+          var cssClass = data[i].cssClass
+          this._value_map[value] = cssClass
+          // bad: access internal data structure
+          this.${escapetool.d}dropdown_content.children()
+            .filter(function(index, elem) { return elem.getAttribute('data-value') == ''+value; })
+            .addClass(cssClass)
+        }
+      } catch (e) { console.log('failed to prettify progress item', e) }
+    },
+    onDropdownOpen : function(data) {
+      // silly: hide the "----" after it has beed added by the livetable macro
+      // we should use a "multilist" there, but our way of using "xwikiSelectize" does not handle this well
+      jq("[data-value='────']", data[0]).hide()
+    },
+    onItemAdd : function(value, item) {
+      try {
+        var cssClass = this._value_map[value]
+        if (cssClass) {
+          item.addClass(cssClass)
+        }
+      } catch (e) { console.log('failed to prettify added progress item', value, e) }
+    }
+  };
+
+  jq('td.xwiki-livetable-display-header-filter select[name="progress"]').xwikiSelectize(settings);
+});</code>
+    </property>
+    <property>
+      <name>selectize.js the progress filter</name>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+</xwikidoc>
