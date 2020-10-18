@@ -35,8 +35,6 @@
   <contentUpdateDate>1406046020000</contentUpdateDate>
   <version>1.1</version>
   <title>TaskManager Class</title>
-  <defaultTemplate/>
-  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
@@ -111,6 +109,7 @@
 #set($discard = $xwiki.ssx.use('TaskManager.TaskManagerClass'))
 #macro(displayTaskAsDependency $taskid)
   #set($taskpageref = $services.model.resolveDocument($taskid))
+#if($services.security.authorization.hasAccess("view", $taskpageref))
   #set($taskpage = $xwiki.getDocument($taskpageref))
   #set($task = $taskpage.getObject('TaskManager.TaskManagerClass'))
   #set($tasktitle = $task.getProperty('name').value)
@@ -148,7 +147,8 @@
   #if($type == 'edit')
     &lt;/label&gt;
   #end
-#end
+#end ## access check
+#end ## macro "displayTaskAsDependency"
 
 {{html wiki="true"}}
 #if($type == 'edit')

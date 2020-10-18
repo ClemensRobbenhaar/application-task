@@ -184,15 +184,18 @@
     #set($xwql = $xwql.bindValue("group${foreach.count}P", "$group,%"))
     #set($xwql = $xwql.bindValue("Pgroup${foreach.count}P", "%,$group,%"))
   #end
-  #set($results = [] )
+  #set($results = [])
   #set($results = $xwql.setLimit(15).execute())
   ##
   ## now display the results
   ##
   #foreach($result in $results)
-    #set($object = $xwiki.getDocument($result).getObject('TaskManager.TaskManagerClass'))
-    * $services.icon.render('accept') **[[$object.getProperty('name').value&gt;&gt;$result]]**
-    (% class="text-muted small" %)$services.localization.render('taskmanager.panel.untildate') $datetool.format('HH:mm dd/MMM/yyyy',$object.getProperty('duedate').value)
+    #set($taskDoc = $xwiki.getDocument($result))
+    #if($services.security.authorization.hasAccess("view", $taskDoc.getDocumentReference()))
+      #set($object = $taskDoc.getObject('TaskManager.TaskManagerClass'))
+      * $services.icon.render('accept') **[[$object.getProperty('name').value&gt;&gt;$result]]**
+      (% class="text-muted small" %)$services.localization.render('taskmanager.panel.untildate') $datetool.format('HH:mm dd/MMM/yyyy',$object.getProperty('duedate').value)
+    #end
   #end
   #if($results.size() == 0)
     (% class="pull-left"%)$services.localization.render('taskmanager.panel.noactivetasks')

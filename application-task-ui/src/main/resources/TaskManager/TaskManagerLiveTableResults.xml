@@ -56,7 +56,7 @@ $services.localization.use('document', 'TaskManager.TaskManagerTranslations')
   #set($discard = $map.put('column list', $collist))
   #set($discard = $map.put('filter from', $filterfrom))
   #set($discard = $map.put('filter where', $filterwhere))
-  #if("$!request.sql" == '1' || true)
+  #if("$!request.sql" == '1')
     #set($discard = $map.put('sql', $sql))
     #set($discard = $map.put('params', $sqlParams))
   #end
@@ -64,6 +64,7 @@ $services.localization.use('document', 'TaskManager.TaskManagerTranslations')
   ###gridresult_buildTagCloudJSON($map)
   #gridresult_buildRowsJSON($map)
   #set($defaultDocName = $services.model.createDocumentReference('','','','default').getName())
+  #set($toRemove = [])
   #foreach($result in $map.get('rows'))
     ## here we change / abuse the fullName to the value of the next "meaningful" parent
     ## if the first parent has a name of "TaskManager", and it is not the main task manager
@@ -72,31 +73,29 @@ $services.localization.use('document', 'TaskManager.TaskManagerTranslations')
     ## XXX: what if we use doc.space instead?
     #if("$!result['doc_fullName']" != '')
        #set($docRef = $services.model.resolveDocument($result.get('doc_fullName')))
-       ###set($discard = $result.put('doc_ref', "$docRef"))
-       ###set($discard = $result.put('default', $defaultDocName))
-       #if($docRef.getName() == $defaultDocName)
-         ###set($discard = $result.put('doc_isdefault', true))
-         #set($parentSpaceRef = $docRef.getParent().getParent())
+       #if($services.security.authorization.hasAccess("view", $docRef))
+         #if($docRef.getName() == $defaultDocName)
+           #set($parentSpaceRef = $docRef.getParent().getParent())
+         #else
+           #set($parentSpaceRef = $docRef.getParent())
+         #end
+         #if ($parentSpaceRef.getName() == "TaskManager" &amp;&amp; $parentSpaceRef.getParent().getType() == "SPACE")
+           #set($displayParentSpaceRef = $parentSpaceRef.getParent())
+         #else
+           #set($displayParentSpaceRef = $parentSpaceRef)
+         #end
+         #set($parentSpaceDoc = $xwiki.getDocument($services.model.createDocumentReference($defaultDocName, $displayParentSpaceRef)))
+         #set($parentSpaceTitle = "-") ## just in case the document is null
+         #set($parentSpaceTitle = $parentSpaceDoc.getPlainTitle())
+         #set($parentSpaceURL = $xwiki.getURL($parentSpaceRef))
+         #set($locationHtml = "&lt;a class=${escapetool.Q}wikigeneratedlink${escapetool.Q} href=${escapetool.Q}$escapetool.xml($parentSpaceURL)${escapetool.Q}&gt;$escapetool.xml($parentSpaceTitle)&lt;/a&gt;")
+         #set($discard = $result.put('doc_fullName', $locationHtml))
        #else
-         #set($parentSpaceRef = $docRef.getParent())
+         #set($discard = $toRemove.add($result))
        #end
-       #if ($parentSpaceRef.getName() == "TaskManager" &amp;&amp; $parentSpaceRef.getParent().getType() == "SPACE")
-         #set($displayParentSpaceRef = $parentSpaceRef.getParent())
-       #else
-         #set($displayParentSpaceRef = $parentSpaceRef)
-       #end
-       #set($parentSpaceDoc = $xwiki.getDocument($services.model.createDocumentReference($defaultDocName, $displayParentSpaceRef)))
-       #set($parentSpaceTitle = "-") ## just in case the document is null
-       #set($parentSpaceTitle = $parentSpaceDoc.getPlainTitle())
-       ###set($discard = $result.put('doc_parent', "$parentSpaceRef"))
-       ###set($discard = $result.put('doc_displayparent', "$displayParentSpaceRef"))
-       ###set($discard = $result.put('doc_fullname2', "$parentSpaceTitle"))
-       #set($parentSpaceURL = $xwiki.getURL($parentSpaceRef))
-       ###set($discard = $result.put('doc_parent_url', $parentSpaceURL))
-       #set($locationHtml = "&lt;a class=${escapetool.Q}wikigeneratedlink${escapetool.Q} href=${escapetool.Q}$escapetool.xml($parentSpaceURL)${escapetool.Q}&gt;$escapetool.xml($parentSpaceTitle)&lt;/a&gt;")
-       #set($discard = $result.put('doc_fullName', $locationHtml))
     #end
   #end
+  #set($discard = $map.get('rows').removeAll($toRemove))
 #end
 
 
