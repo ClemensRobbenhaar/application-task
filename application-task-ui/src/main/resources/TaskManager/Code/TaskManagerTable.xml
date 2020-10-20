@@ -54,7 +54,7 @@
   'reporter': {"type":"text","size":10,"html":true},
   'assignee': {"type":"suggest","size":10,"html":true, "sortable":false},
   'assignee_group': {"type":"suggest","size":10,"html":true, "sortable":false},
-  'duedate': {"type":"text","size":10},
+  'duedate': {"type":"date","size":10},
   '_actions': {"sortable":false,"filterable":false,"html":true,"actions":["edit","delete"]}
 })
 #set ($options = {
