@@ -248,12 +248,11 @@ def creationRestrictions = providerInfo.getValue('creationRestrictions')
 
 logger.trace('we see event {} for doc {}', event, source.fullName)
 
-if (source.fullName != 'TaskManager.TaskManagerTemplateProvider') {
+if (source.fullName != 'TaskManager.TaskManagerTemplateProvider' &amp;&amp; source.fullName != 'TaskManager.Code.TaskManagerLocalTemplate') {
 
   if (event instanceof DocumentCreatedEvent) {
 
     mustAdd = (source.getObjectNumbers(tmClass) != 0)
-    mustDelete = !mustAdd
     logger.debug('page create: mustAdd={}', mustAdd)
   } else if (event instanceof DocumentUpdatedEvent) {
 
@@ -283,20 +282,27 @@ if (source.fullName != 'TaskManager.TaskManagerTemplateProvider') {
   }
 
   logger.trace('result: add={}, del={}', mustAdd, mustDelete)
+  def spaceStr
   if (mustAdd) {
-    def spaceStr = refSerializer.serialize(source.getDocumentReference().getParent())
+    spaceStr = refSerializer.serialize(source.getDocumentReference().getParent())
     needSave = creationRestrictions.add(spaceStr)
   }
   if (mustDelete) {
-    def spaceStr = refSerializer.serialize(source.getDocumentReference().getParent())
+    spaceStr = refSerializer.serialize(source.getDocumentReference().getParent())
     needSave = creationRestrictions.remove(spaceStr)
     // we sometimes have duplicate entries, so:
     while (creationRestrictions.remove(spaceStr)) {}
   }
 
-  logger.debug('result: template provider updated: {}', needSave)
+  logger.debug('result: template provider updated? {}', needSave)
   if (needSave) {
-    templateProvider.saveAsAuthor('', true)
+    def commment
+    if(mustAdd) {
+      comment = "added $spaceStr to supported locations"
+    } else {
+      comment = "removed $spaceStr from supported locations"
+    }
+    templateProvider.saveAsAuthor(comment, true)
   }
 }
 
