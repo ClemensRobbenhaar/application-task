@@ -47,7 +47,8 @@
     #set ($discard = $services.localization.use('document', 'TaskManager.Code.RepeatedTaskTranslations'))
     #set ($recurrency = $doc.getObject('TaskManager.Code.RepeatedTaskClass'))
     #set ($recurrent = ($recurrency != $NULL))
-    #if($xcontext.action =='view')
+    #set($isEdit = ($xcontext.action == 'edit' || $xcontext.action == 'inline'))
+    #if(!$isEdit)
       (% class="xform" %)
       (((
         (% class="row" %)
@@ -194,12 +195,12 @@
           (((
             (% class="form-group" %)
             (((
-              #if ("$!doc.display('description')" != '')
+              #if ("$!doc.display('description')" != '' || $xcontext.action == 'preview')
                 ; &lt;label for="TaskManager.TaskManagerClass_0_description"&gt;
                     $services.icon.render('application_view_list')
                     $escapetool.xml($doc.displayPrettyName('description', false, false))
                   &lt;/label&gt;
-                : $doc.display('description')
+                : #if ($xcontext.action == 'preview') $doc.getRenderedContent($request.content, $doc.syntax) #else $doc.display('description') #end
               #end
             )))
           )))
@@ -222,7 +223,7 @@
         )))
       )))
     #end
-    #if($xcontext.action =='edit')
+    #if($isEdit)
       #set($discard = $xwiki.jsx.use("TaskManager.Code.RepeatedTaskClass", {'defer': false, 'minify': false}))
       #set($discard = $xwiki.ssx.use("TaskManager.Code.RepeatedTaskClass"))
       (% class="xform" %)
@@ -233,17 +234,20 @@
           (((
             (% class="form-group" %)
             (((
-              ## Automatically set task name property as the document name
+              ## Automatically set task name property from the document name
               ; &lt;label for="TaskManager.TaskManagerClass_0_name"&gt;
                   $services.icon.render('font')
                   $escapetool.xml($doc.displayPrettyName('name', false, false))
                 &lt;/label&gt;
                 #set($taskName = $doc.getObject('TaskManager.TaskManagerClass').getProperty('name').value)
-                #if($taskName)
-              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager.TaskManagerClass_0_name" value="$escapetool.xml($taskName)"/&gt;
-                #else
-              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager.TaskManagerClass_0_name" value="$escapetool.xml($doc.name)"/&gt;
+                #if("$!{taskName}" == '')
+                   #set($taskName = $doc.documentReference.name)
+                   #if($taskName == $services.model.getEntityReference('DOCUMENT', 'default').name)
+                     ## we are a non-terminal page: use space name
+                     #set($taskName = $doc.documentReference.parentReference.name)
+                   #end
                 #end
+              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager.TaskManagerClass_0_name" value="$escapetool.xml($taskName)"/&gt;
                 #if($doc.isNew())
                 #set($query = "select max(taskObject.number) from Document doc, doc.object(TaskManager.TaskManagerClass) as taskObject")
                 #set($result = $services.query.xwql($query).execute())
