@@ -113,6 +113,9 @@
 #if($services.security.authorization.hasAccess("view", $taskpageref))
   #set($taskpage = $xwiki.getDocument($taskpageref))
   #set($task = $taskpage.getObject('TaskManager.TaskManagerClass'))
+  #if("$!task" == '')
+    #break
+  #end
   #set($tasktitle = $task.getProperty('name').value)
   #set($tasklink = $services.model.serialize($taskpageref,'compactwiki'))
   #set($taskstatus = $task.getProperty('status').value)
