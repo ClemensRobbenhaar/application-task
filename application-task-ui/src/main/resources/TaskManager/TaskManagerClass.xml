@@ -27,7 +27,7 @@
   <defaultLanguage/>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1405091819000</creationDate>
+  <creationDate>1595543104000</creationDate>
   <parent>WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
@@ -236,7 +236,7 @@
     </description>
     <duedate>
       <customDisplay/>
-      <dateFormat>dd/MM/yyyy HH:mm:ss</dateFormat>
+      <dateFormat>dd.MM.yyyy HH:mm</dateFormat>
       <disabled>0</disabled>
       <emptyIsToday>1</emptyIsToday>
       <hint/>

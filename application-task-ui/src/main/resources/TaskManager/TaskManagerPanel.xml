@@ -194,7 +194,7 @@
     #if($services.security.authorization.hasAccess("view", $taskDoc.getDocumentReference()))
       #set($object = $taskDoc.getObject('TaskManager.TaskManagerClass'))
       * $services.icon.render('accept') **[[$object.getProperty('name').value&gt;&gt;$result]]**
-      (% class="text-muted small" %)$services.localization.render('taskmanager.panel.untildate') $datetool.format('HH:mm dd/MMM/yyyy',$object.getProperty('duedate').value)
+      (% class="text-muted small" %)$services.localization.render('taskmanager.panel.untildate') $datetool.format('dd.MM.yyyy HH:mm',$object.getProperty('duedate').value)
     #end
   #end
   #if($results.size() == 0)
