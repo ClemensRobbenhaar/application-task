@@ -65,7 +65,7 @@ TaskManager.TaskManagerClass_description=Beschreibung
 TaskManager.TaskManagerClass_status=Status
 TaskManager.TaskManagerClass_status_InProgress=In Bearbeitung
 TaskManager.TaskManagerClass_status_Late=Überfällig
-TaskManager.TaskManagerClass_status_ToDo=ToDo
+TaskManager.TaskManagerClass_status_ToDo=Offen
 TaskManager.TaskManagerClass_status_Done=Erledigt
 TaskManager.TaskManagerClass_severity=Priorität
 TaskManager.TaskManagerClass_severity_Medium=Mittel
@@ -82,7 +82,7 @@ TaskManager.TaskManagerClass_progress=Fortschritt
 
 
 TaskManager.StatusClass_status_InProgress=In Bearbeitung
-TaskManager.StatusClass_status_ToDo=ToDo
+TaskManager.StatusClass_status_ToDo=Offen
 TaskManager.StatusClass_status_Done=Erledigt
 
 TaskManager.SeverityClass_severity_Low=Niedrig
@@ -97,7 +97,7 @@ taskmanager.livetable.doc.space=Bereich
 taskmanager.livetable.doc.fullname=Seitenpfad
 taskmanager.livetable.doc.author=Letzer Autor
 taskmanager.livetable.doc.creator=Ersteller
-taskmanager.livetable.doc.date=Aktualisierungdatun
+taskmanager.livetable.doc.date=Aktualisierungdatum
 taskmanager.livetable.doc.creationDate=Anlegedatum
 taskmanager.livetable._avatar=Bild
 taskmanager.livetable._images=Bilder
@@ -118,7 +118,7 @@ taskmanager.livetable.severity=Priorität
 taskmanager.livetable.reporter=Reporter
 taskmanager.livetable.assignee=Zugewiesen
 taskmanager.livetable.assignee_group=(Gruppe)
-taskmanager.livetable.duedate=Fälligkeitsdatum
+taskmanager.livetable.duedate=Fällig am
 taskmanager.livetable.creationDate=Anlegedatum
 
 # Panel
